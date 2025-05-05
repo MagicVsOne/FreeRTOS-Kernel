@@ -4123,6 +4123,13 @@ BaseType_t xTaskResumeAll( void )
                         }
                     }
 
+                    /**当前函数返回值不为 true 的核心逻辑：
+                     * 调度器暂停时，调用 vTaskSuspendAll 会增加挂起计数，xTaskResumeAll 会减少计数，当计数回到 0 时，调度器恢复活动状态。
+                     * 当前函数的作用是：
+                     * 减少挂起计数（uxSchedulerSuspendCount--）。
+                     * 若挂起计数减至 0（即调度器从暂停状态恢复为活动状态），则返回 pdFALSE，表示需要触发一次任务调度（因为可能有高优先级任务就绪）。
+                     * 若挂起计数仍大于 0（即之前有未匹配的 vTaskSuspendAll() 调用），返回 pdTRUE，表示调度器仍处于暂停状态，无需调度。
+                     * */
                     if( xYieldPendings[ xCoreID ] != pdFALSE )
                     {
                         #if ( configUSE_PREEMPTION != 0 )
