@@ -229,6 +229,7 @@ typedef struct xLIST
  *
  * \page listGET_HEAD_ENTRY listGET_HEAD_ENTRY
  * \ingroup LinkedList
+ * 链表中真正存储数据的第一个节点
  */
 #define listGET_HEAD_ENTRY( pxList )                      ( ( ( pxList )->xListEnd ).pxNext )
 
@@ -245,6 +246,7 @@ typedef struct xLIST
  *
  * \page listGET_END_MARKER listGET_END_MARKER
  * \ingroup LinkedList
+ * // 提供链表的尾标记节点，并通过 const 约束保证不能通过返回的指针修改 尾标记节点 的成员变量
  */
 #define listGET_END_MARKER( pxList )                      ( ( ListItem_t const * ) ( &( ( pxList )->xListEnd ) ) )
 
